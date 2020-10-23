@@ -1,6 +1,9 @@
 ﻿
+using Photon.Pun;
 using Photon.Pun.UtilityScripts;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 namespace TurnBase
 {
@@ -57,6 +60,10 @@ namespace TurnBase
                 this.pPunTurnManager.SendMove(Action.Type.Defend, false);
                 lastInput = Action.Type.Defend;
             }
+        }
+        public void OnClickBack()
+        {
+            PhotonNetwork.LeaveRoom();
         }
 
         #endregion

@@ -29,15 +29,17 @@ namespace TurnBase
         public Button btnCharge;
         public Button btnDefend;
 
-
+        //animator object
         public GameObject myPlayer;
         public GameObject otherPlayer;
 
         public HealthUI myHealth;
         public HealthUI otherHealth;
 
-        //public Canvas canvasGameOver;
-        //public Text textResult;
+        public EnergyUI myEnergyUI;
+
+        public GameObject GameOverUI;
+        public Text textResult;
 
         #endregion
 
@@ -79,10 +81,11 @@ namespace TurnBase
             //myPlayerAction.text = sTakeAction;
             //textOpponentAction.text = "......";
 
-            sliderTimeCounter.value = 0.0f;
+            sliderTimeCounter.value = 1f;
 
             this.DisableAllButtons();
 
+            this.GameOverUI.SetActive(false);
             //this.canvasGameOver.enabled = false;
 
             ActionManager.SetPlayerAnim(myPlayer, otherPlayer);
@@ -97,9 +100,18 @@ namespace TurnBase
             //this.canvasGameOver.gameObject.SetActive(true);
             //this.canvasGameOver.enabled = true;
             //text.text = "Game Over";
-
-            //this.textResult.text = this.GetBattleResult();
+            this.GameOverUI.SetActive(true);
+            this.textResult.text = this.GetBattleResult();
             text.text = this.GetBattleResult();
+
+           if(this.pMyAvatar.IsDead())
+            {
+                this.myPlayer.GetComponent<Animator>().SetTrigger("Die");
+            }
+            else
+            {
+                this.otherPlayer.GetComponent<Animator>().SetTrigger("Die");
+            }
         }
 
         /// <summary>
@@ -169,6 +181,8 @@ namespace TurnBase
             //}
         }
 
+
+
         #endregion
 
         #region Public Methods
@@ -177,7 +191,7 @@ namespace TurnBase
         {
             float value = Mathf.Clamp01(timeElapsed / timeTotal);
 
-            this.sliderTimeCounter.value = value;
+            this.sliderTimeCounter.value = 1-value;
         }
 
         #endregion
@@ -220,7 +234,10 @@ namespace TurnBase
             myHealth.UpdateHealthUI(myCurrentHP);
 
             //textMyHP.text = this.pMyAvatar.GetHP().ToString();
-            textMySP.text = this.pMyAvatar.GetSP().ToString();
+            //textMySP.text = this.pMyAvatar.GetSP().ToString();
+            int myCurrentEnergy = this.pMyAvatar.GetSP();
+
+            myEnergyUI.UpdateEnergyUI(myCurrentEnergy);
 
             int otherCurrentHP = this.pOtherAvatar.GetHP();
             otherHealth.UpdateHealthUI(otherCurrentHP);

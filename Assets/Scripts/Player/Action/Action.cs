@@ -6,7 +6,7 @@ namespace TurnBase
     {
         public enum Type
         {
-            Charge,
+            Charge = 0,
             Attack,
             Defend,
 

@@ -52,6 +52,9 @@ namespace TurnBase
 
         public void Against(Avatar other)
         {
+            Debug.Assert(other.pAction != null);
+            Debug.Assert(this.pAction != null);
+
             other.pAction.Accept(this.pAction);
         }
 
@@ -94,6 +97,13 @@ namespace TurnBase
             ActionManager.SetAction(ref this.pAction, type);
             Debug.Assert(this.pAction != null);
         }
+
+        public void ResetAction()
+        {
+            ActionManager.SetAction(ref this.pAction, Action.Type.Charge);
+            Debug.Assert(this.pAction != null);
+        }
+
 
         public Action.Type GetAction()
         {

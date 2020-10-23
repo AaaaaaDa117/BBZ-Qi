@@ -20,7 +20,7 @@ namespace TurnBase
         {
             Debug.LogError("Defend succeed!");
 
-            //this.pMyPlayerAnim.GetComponent<Animator>().SetTrigger("Defend");
+            this.pMyPlayerAnim.GetComponent<Animator>().SetTrigger("Defend");
             this.pOtherAnim.GetComponent<Animator>().SetTrigger("Attack");
             // Nothing for now
         }
@@ -29,6 +29,7 @@ namespace TurnBase
         {
             Debug.LogError("Defend empty!");
 
+            this.pMyPlayerAnim.GetComponent<Animator>().SetTrigger("Defend");
             this.pOtherAnim.GetComponent<Animator>().SetTrigger("Charge");
             // Nothing for now
         }
@@ -37,7 +38,8 @@ namespace TurnBase
         {
             Debug.LogError("Equal - Defend!");
 
-
+            this.pMyPlayerAnim.GetComponent<Animator>().SetTrigger("Defend");
+            this.pOtherAnim.GetComponent<Animator>().SetTrigger("Defend");
             // Nothing for now
         }
     }

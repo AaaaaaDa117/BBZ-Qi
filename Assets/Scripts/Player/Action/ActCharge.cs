@@ -42,7 +42,7 @@ namespace TurnBase
             Debug.LogError("Charge succeed!");
 
             this.pMyPlayerAnim.GetComponent<Animator>().SetTrigger("Charge");
-            //this.pOtherAnim.GetComponent<Animator>().SetTrigger("Defend");
+            this.pOtherAnim.GetComponent<Animator>().SetTrigger("Defend");
             this.pMyAvatar.GatherSP();
         }
     }

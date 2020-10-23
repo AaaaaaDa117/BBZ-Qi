@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
+
 
 namespace TurnBase
 {
@@ -66,6 +68,11 @@ namespace TurnBase
         public void QuickMatch()
         {
             PhotonNetwork.JoinRandomRoom();
+        }
+        public void OnClickBack()
+        {
+            SceneManager.LoadScene(0);
+            PhotonNetwork.Disconnect();
         }
 
         #endregion

@@ -43,6 +43,7 @@ namespace TurnBase
         {
             Debug.LogError("Attack failed!");
             this.pMyPlayerAnim.GetComponent<Animator>().SetTrigger("Attack");
+            this.pOtherAnim.GetComponent<Animator>().SetTrigger("Defend");
             // Attack failed!
             this.pMyAvatar.ConsumeSP(1);
         }

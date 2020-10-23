@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Photon.Realtime;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
+using Unity.Collections.LowLevel.Unsafe;
 
 namespace TurnBase
 {
@@ -49,7 +51,7 @@ namespace TurnBase
         {
             // Demo code, will be removed after test
             //*
-            DemoStart();
+            //DemoStart();
             //*/
 
             // Add and initialize PunTurnManager
@@ -63,7 +65,15 @@ namespace TurnBase
 
             poMyAvatar.Initialize(PhotonNetwork.LocalPlayer, this.initialHP);
             // TODO: replace null with an actual player
-            poOtherAvatar.Initialize(null, this.initialHP);
+            if (PhotonNetwork.PlayerList[0] == PhotonNetwork.LocalPlayer)
+            {
+                poOtherAvatar.Initialize(PhotonNetwork.PlayerList[1], this.initialHP);
+            }
+            else
+            {
+                poOtherAvatar.Initialize(PhotonNetwork.PlayerList[0], this.initialHP);
+            }
+           
 
             // Initialize ActionManager, it's a singleton
             ActionManager.Initialize(poMyAvatar, poOtherAvatar);
@@ -81,7 +91,10 @@ namespace TurnBase
             pInputManager.Initialize(this.poTurnManager);
 
             //
-           
+
+
+            StartCoroutine("StartBattle");
+
         }
 
         void Update()
@@ -134,6 +147,7 @@ namespace TurnBase
             yield return new WaitForSeconds(time_interval);
 
             this.pUIManager.UpdateOnGameOver();
+
         }
 
         #endregion
@@ -151,6 +165,10 @@ namespace TurnBase
         public void OnPlayerFinished(Player player, int turn, object move)
         {
             Debug.Log("Game: OnPlayerFinished, Turn: " + turn + ", Player: " + player.NickName);
+
+
+
+
         }
 
         /// <summary>
@@ -192,7 +210,7 @@ namespace TurnBase
             pInputManager.ResetInput();
 
             // Set a default action for local player
-            poMyAvatar.SetAction(Action.Type.Charge);
+            this.ResetAvatarAction();
         }
 
         /// <summary>
@@ -209,29 +227,33 @@ namespace TurnBase
             //*******************************************************
             // Demo Test Code
             // Simple AI opponent for quick test
-            {
-                int i = turn % 3;
+            //{
+            //    int i = turn % 3;
 
-                if (i == 1)
-                {
-                    poOtherAvatar.SetAction(Action.Type.Charge);
-                }
+            //    if (i == 1)
+            //    {
+            //        poOtherAvatar.SetAction(Action.Type.Charge);
+            //    }
 
-                if (i == 2)
-                {
-                    poOtherAvatar.SetAction(Action.Type.Defend);
-                }
+            //    if (i == 2)
+            //    {
+            //        poOtherAvatar.SetAction(Action.Type.Defend);
+            //    }
 
-                if (i == 0)
-                {
-                    poOtherAvatar.SetAction(Action.Type.Attack);
-                }
-            }
+            //    if (i == 0)
+            //    {
+            //        poOtherAvatar.SetAction(Action.Type.Attack);
+            //    }
+            //}
             // Demo Test Code
             //*******************************************************
 
             // Determine the players' gaming status
             // 
+
+            Debug.Assert(poMyAvatar != null);
+            Debug.Assert(poOtherAvatar != null);
+
             poMyAvatar.Against(poOtherAvatar);
 
             // Update UI
@@ -262,13 +284,42 @@ namespace TurnBase
             // Finish the turn
             if (!this.poTurnManager.IsFinishedByMe)
             {
-                //Debug.LogError("Turn finished by me");
-                this.poTurnManager.SendMove(null, true);
+                //Debug.LogError("Turn not finished by me");
+                this.poTurnManager.SendMove(null , true);
             }
         }
 
         #endregion
 
+
+
+        #region Private Method
+
+        private void ResetAvatarAction()
+        {
+            Debug.Assert(this.poMyAvatar != null);
+            Debug.Assert(this.poOtherAvatar != null);
+
+            this.poMyAvatar.ResetAction();
+            this.poOtherAvatar.ResetAction();
+        }
+
+        #endregion
+
+
+
+        #region PhotonCallBack
+
+        public override void OnPlayerLeftRoom(Player otherPlayer)
+        {
+            Debug.Log("Player left room: " + otherPlayer.NickName);
+        }
+        public override void OnLeftRoom()
+        {
+            SceneManager.LoadScene("Lobby");
+        }
+
+        #endregion
         //*******************************************************
         // Demo Test Code
         #region Demo test functions
