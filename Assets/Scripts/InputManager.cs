@@ -1,7 +1,8 @@
-﻿
+﻿using System;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 
@@ -14,7 +15,6 @@ namespace TurnBase
         private PunTurnManager pPunTurnManager;
 
         private Action.Type lastInput;
-
         #endregion
 
 
@@ -40,6 +40,14 @@ namespace TurnBase
             {
                 this.pPunTurnManager.SendMove(Action.Type.Attack, false);
                 lastInput = Action.Type.Attack;
+            }
+        }
+        public void OnClickUltiAttack()
+        {
+            if (lastInput != Action.Type.SuperAttack)
+            {
+                this.pPunTurnManager.SendMove(Action.Type.SuperAttack, false);
+                lastInput = Action.Type.SuperAttack;
             }
         }
 
@@ -77,26 +85,27 @@ namespace TurnBase
 
         void Update()
         {
-            if (!this.pPunTurnManager.IsFinishedByMe)
-            {
-                if (Input.GetKeyDown(KeyCode.A) && lastInput != Action.Type.Attack) 
-                {
-                    this.pPunTurnManager.SendMove(Action.Type.Attack, false);
-                    lastInput = Action.Type.Attack;
-                }
 
-                if (Input.GetKeyDown(KeyCode.D) && lastInput != Action.Type.Defend)
-                {
-                    this.pPunTurnManager.SendMove(Action.Type.Defend, false);
-                    lastInput = Action.Type.Defend;
-                }
+            //if (!this.pPunTurnManager.IsFinishedByMe)
+            //{
+            //    if (Input.GetKeyDown(KeyCode.A) && lastInput != Action.Type.Attack) 
+            //    {
+            //        this.pPunTurnManager.SendMove(Action.Type.Attack, false);
+            //        lastInput = Action.Type.Attack;
+            //    }
 
-                if (Input.GetKeyDown(KeyCode.Space) && lastInput != Action.Type.Charge)
-                {
-                    this.pPunTurnManager.SendMove(Action.Type.Charge, false);
-                    lastInput = Action.Type.Charge;
-                }
-            }
+            //    if (Input.GetKeyDown(KeyCode.D) && lastInput != Action.Type.Defend)
+            //    {
+            //        this.pPunTurnManager.SendMove(Action.Type.Defend, false);
+            //        lastInput = Action.Type.Defend;
+            //    }
+
+            //    if (Input.GetKeyDown(KeyCode.Space) && lastInput != Action.Type.Charge)
+            //    {
+            //        this.pPunTurnManager.SendMove(Action.Type.Charge, false);
+            //        lastInput = Action.Type.Charge;
+            //    }
+            //}
         }
 
         #endregion

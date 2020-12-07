@@ -18,10 +18,22 @@ namespace TurnBase
 
         public override void AgainstAttack(ActAttack attack)
         {
-            Debug.LogError("Defend succeed!");
+            if (attack.power == 1)
+            {
+                Debug.LogError("Defend succeed!");
 
-            this.pMyPlayerAnim.GetComponent<Animator>().SetTrigger("Defend");
-            this.pOtherAnim.GetComponent<Animator>().SetTrigger("Attack");
+                this.pMyPlayerAnim.GetComponent<Animator>().SetTrigger("Defend");
+                this.pOtherAnim.GetComponent<Animator>().SetTrigger("Attack");
+            }
+            else
+            {
+                Debug.LogError("Defend failed!");
+
+                this.pMyPlayerAnim.GetComponent<Animator>().SetTrigger("DefendFail");
+                this.pOtherAnim.GetComponent<Animator>().SetTrigger("SuperAttack");
+                this.pMyAvatar.TakeDamage(1);
+            }
+
             // Nothing for now
         }
 

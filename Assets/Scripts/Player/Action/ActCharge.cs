@@ -18,12 +18,14 @@ namespace TurnBase
 
         public override void AgainstAttack(ActAttack attack)
         {
+
             Debug.LogError("Hurt!");
 
             this.pMyPlayerAnim.GetComponent<Animator>().SetTrigger("Hurt");
-            this.pOtherAnim.GetComponent<Animator>().SetTrigger("Attack");
+            this.pOtherAnim.GetComponent<Animator>().SetTrigger(attack.power>1?"SuperAttack":"Attack");
+            
             // Take Damage
-            this.pMyAvatar.TakeDamage(1);
+            this.pMyAvatar.TakeDamage(attack.power);
 
             //this.pOtherAvatar.ConsumeSP(1);
         }

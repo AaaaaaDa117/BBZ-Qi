@@ -8,6 +8,7 @@ namespace TurnBase
         {
             Charge = 0,
             Attack,
+            SuperAttack,
             Defend,
 
             None

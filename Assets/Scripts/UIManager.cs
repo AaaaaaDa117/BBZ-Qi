@@ -26,6 +26,7 @@ namespace TurnBase
         public Slider sliderTimeCounter;
 
         public Button btnAttack;
+        public Button btnSuperAttack;
         public Button btnCharge;
         public Button btnDefend;
 
@@ -203,6 +204,7 @@ namespace TurnBase
             this.btnAttack.interactable = false;
             this.btnCharge.interactable = false;
             this.btnDefend.interactable = false;
+            this.btnSuperAttack.interactable = false;
         }
 
         private void HandleButtonsOnTurnBegins()
@@ -220,6 +222,10 @@ namespace TurnBase
                 this.btnAttack.interactable = false;
 
                 btnAttackText.color = Color.grey;
+            }
+            if (pMyAvatar.GetSP() >= 3)
+            {
+                this.btnSuperAttack.interactable = true;
             }
             
             this.btnCharge.interactable = true;
@@ -266,7 +272,7 @@ namespace TurnBase
 
         void Update()
         {
-
+           
         }
 
         #endregion

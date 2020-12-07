@@ -5,7 +5,6 @@ using UnityEngine;
 public class AnimationTest : MonoBehaviour
 {
     Animator anim;
-
     int count;
     // Start is called before the first frame update
     void Start()

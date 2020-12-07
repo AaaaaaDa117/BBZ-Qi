@@ -13,6 +13,7 @@ namespace TurnBase
         private static ActionManager pInstance = null;
 
         private ActAttack poActAttack;
+        private ActAttack poActSuperAttack;
         private ActCharge poActCharge;
         private ActDefend poActDefend;
 
@@ -25,6 +26,7 @@ namespace TurnBase
         private void Set(Avatar myAva, Avatar otherAva)
         {
             this.poActAttack = new ActAttack(myAva, otherAva);
+            this.poActSuperAttack = new ActAttack(myAva, otherAva);
             this.poActCharge = new ActCharge(myAva, otherAva);
             this.poActDefend = new ActDefend(myAva, otherAva);
         }
@@ -41,6 +43,9 @@ namespace TurnBase
             Debug.Assert(pInstance == null);
             pInstance = new ActionManager();
             pInstance.Set(myAva, otherAva);
+
+            pInstance.poActAttack.power = 1;
+            pInstance.poActSuperAttack.power = 2;
         }
 
 
@@ -48,6 +53,7 @@ namespace TurnBase
         {
             Debug.Assert(pInstance != null);
             pInstance.poActAttack.SetAnim(myPlayerAnim, otherPlayerAnim);
+            pInstance.poActSuperAttack.SetAnim(myPlayerAnim, otherPlayerAnim);
             pInstance.poActCharge.SetAnim(myPlayerAnim, otherPlayerAnim);
             pInstance.poActDefend.SetAnim(myPlayerAnim, otherPlayerAnim);
 
@@ -62,6 +68,9 @@ namespace TurnBase
             {
                 case Action.Type.Attack:
                     action = pInstance.poActAttack;
+                    break;
+                case Action.Type.SuperAttack:
+                    action = pInstance.poActSuperAttack;
                     break;
 
                 case Action.Type.Charge:

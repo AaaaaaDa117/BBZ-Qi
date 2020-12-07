@@ -26,10 +26,13 @@ public class HealthUI : MonoBehaviour
         }
         if (health == 1)
         {
+            heart3.SetActive(false);
             heart2.SetActive(false);
         }
         if (health == 0)
         {
+            heart3.SetActive(false);
+            heart2.SetActive(false);
             heart1.SetActive(false);
         }
     }

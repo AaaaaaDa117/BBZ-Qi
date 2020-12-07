@@ -84,7 +84,7 @@ namespace TurnBase
 
         public void ConsumeSP(int count)
         {
-            this.SP--;
+            this.SP -= count;
 
             if (this.SP < 0) 
             {
